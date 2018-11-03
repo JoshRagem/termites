@@ -12,6 +12,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 name = "termites"
 version = "0.1.0"
 dependencies = [
+ "libc 0.2.43 (registry+https://github.com/rust-lang/crates.io-index)",
  "time 0.1.40 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 

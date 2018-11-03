@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::env;
 use std::env::args;
-use std::fs::{File, Metadata};
+use std::fs::{OpenOptions, File, Metadata};
 use std::net::{UdpSocket, SocketAddr};
 use std::os::unix::fs::MetadataExt;
 use std::process::exit;
@@ -60,7 +60,7 @@ fn main(){
         }
     };
 
-    let mut termite = match Termite::new(file, meta.ino()) {
+    let mut termite = match Termite::new(file, meta.blksize()) {
         Ok(t) => t,
         Err(e) => {
             eprintln!("unknown error reading file: {}", e);
@@ -139,7 +139,7 @@ fn bind_socket(sock: SocketAddr) -> Option<UdpSocket> {
 }
 
 fn file_data(filename: String) -> std::io::Result<(File, Metadata)> {
-    let file = File::open(filename)?;
+    let file = OpenOptions::new().write(true).read(true).open(filename)?;
     let meta = file.metadata()?;
     Ok((file, meta))
 }
